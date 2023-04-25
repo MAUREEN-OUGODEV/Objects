@@ -33,15 +33,18 @@ console.log(olderpeople(people))
   { name: 'Headphones', price: 80, category: 'Electronics' },
   { name: 'Shoes', price: 60, category: 'Clothing' },
 ];
-function product_name(products){
-  let product2=[]
-  for(let i=0;i<products.length;i++){
-       product2.push(products.name[i],products.category[i])
-  }
-  return product2
+var product_name=products.reduce((group,arr)=>{
+    const{category}=arr;
+    group[category]= group[category]??[];
+    group[category].push(arr);
+    return group;
+},
+{})
+console.log(product_name)
   
-}
-console.log(product_name(products))
+  
+
+
 
 // Given an array of objects, where each object represents a
 //  student with a name and an array of scores, 
@@ -53,19 +56,20 @@ const students = [
   { name: 'Jim', scores: [70, 80, 75] },
   { name: 'Jill', scores: [85, 90, 84] },
 ];
-function student_name(students){
+function student_name(){
   let studentList=[]
-  let sum=0
-  for(let i=0;students.length;i++){
-    sum+=students.scores[i]
-    
-    if(sum/students.length < 85){
-       studentList.push(students.name[i])
+  
+  for(let i=0;i<students.length;i++ ){
+    let averageScore=students[i].scores.reduce((total,next)=>
+    total+next)/students[i].scores.length ;
+    if(averageScore>=85){
+      studentList.push(students[i].name)
     }
-   
     
   }
+  return studentList
 }
+console.log(student_name(students))
 // Given an object representing a car, with properties for the make, model, year, and a method to display the car's information, write a function that takes the car object and adds a new method to the object called age. The age method should return the current age of the car based on the current year and the car's year property.
 // const car = {
 //   make: 'Ford',
